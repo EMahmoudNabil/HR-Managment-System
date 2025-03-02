@@ -1,0 +1,156 @@
+﻿@model ApplicationUser
+@{
+    ViewData["Title"] = "Employees";
+}
+
+<div class="container mt-4">
+    <div class="text-center mb-3">
+        <h2 class="border p-2 d-inline-block">Employees</h2>
+    </div>
+
+    <form asp-action="Create" method="post">
+        <div class="row">
+            <!-- Basic Information -->
+            <div class="col-md-6">
+                <div class="border p-3">
+                    <h4 class="text-center mb-3">Basic Information</h4>
+                    <div class="mb-2">
+                        <label asp-for="FullName" class="form-label"></label>
+                        <input asp-for="FullName" type="text" class="form-control" required>
+                        <span asp-validation-for="FullName" class="text-danger"></span>
+                    </div>
+                    <div class="mb-2">
+                        <label asp-for="Address" class="form-label"></label>
+                        <input asp-for="Address" type="text" class="form-control" required>
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                    <div class="mb-2">
+                        <label asp-for="PhoneNumber" class="form-label"></label>
+                        <input asp-for="PhoneNumber" type="tel" class="form-control" required>
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Branch</label>
+                        <select class="form-select" asp-for="DepartmentID" asp-items="ViewBag.Branchs" required>
+                            <option value="">Select a branch</option>
+                        </select>
+                        <span asp-validation-for="DepartmentID" class="text-danger"></span>
+                    </div>
+                    <div class="mb-2">
+                        <label asp-for="Nationality" class="form-label"></label>
+                        <input asp-for="Nationality" type="text" class="form-control">
+                        <span asp-validation-for="Nationality" class="text-danger"></span>
+                    </div>
+                    <div class="mb-2">
+                        <label asp-for="BirthDate" class="form-label"></label>
+                        <input asp-for="BirthDate" type="date" class="form-control">
+                        <span asp-validation-for="BirthDate" class="text-danger"></span>
+                    </div>
+                    <div class="mb-2">
+                        <label asp-for="SSN" class="form-label"></label>
+                        <input asp-for="SSN" class="form-control">
+                        <span asp-validation-for="SSN" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Information -->
+            <div class="col-md-6">
+                <div class="border p-3">
+                    <h4 class="text-center mb-3">Account Information</h4>
+                    <div class="mb-2">
+                        <label asp-for="Email" class="form-label"></label>
+                        <input asp-for="Email" type="email" class="form-control" required>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="mb-2">
+                        <label asp-for="PasswordHash" class="form-label">Password</label>
+                        <input asp-for="PasswordHash" type="password" class="form-control" required>
+                        <span asp-validation-for="PasswordHash" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <!-- Work Information -->
+                <div class="border p-3 mt-3">
+                    <h4 class="text-center mb-3">Work Information</h4>
+                    <div class="mb-2">
+                        <label asp-for="DateOfContract" class="form-label"></label>
+                        <input asp-for="DateOfContract" type="date" class="form-control">
+                        <span asp-validation-for="DateOfContract" class="text-danger"></span>
+                    </div>
+                    <div class="mb-2">
+                        <label asp-for="Salary" class="form-label"></label>
+                        <input asp-for="Salary" type="number" class="form-control" required>
+                        <span asp-validation-for="Salary" class="text-danger"></span>
+                    </div>
+                    <div class="mb-2">
+                        <label asp-for="TimeIn" class="form-label"></label>
+                        <input asp-for="TimeIn" type="time" class="form-control">
+                        <span asp-validation-for="TimeIn" class="text-danger"></span>
+                    </div>
+                    <div class="mb-2">
+                        <label asp-for="TimeOut" class="form-label"></label>
+                        <input asp-for="TimeOut" type="time" class="form-control">
+                        <span asp-validation-for="TimeOut" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-3">
+            <button type="submit" class="btn btn-success">Save</button>
+        </div>
+    </form>
+</div>
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .border {
+        border: 2px solid #007bff;
+        border-radius: 8px;
+        background-color: #ffffff;
+        box-shadow: 0 0 10px rgba(0, 123, 255, 0.2);
+    }
+
+    .form-label {
+        font-weight: bold;
+        color: #343a40;
+    }
+
+    .btn {
+        margin: 5px;
+        padding: 10px 15px;
+        border-radius: 5px;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border: none;
+    }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+    h2, h4 {
+        color: #007bff;
+        font-weight: bold;
+    }
+
+    input, select {
+        border: 1px solid #007bff;
+        border-radius: 5px;
+    }
+
+        input:focus, select:focus {
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            border-color: #0056b3;
+        }
+
+    .text-danger {
+        font-size: 14px;
+    }
+</style>

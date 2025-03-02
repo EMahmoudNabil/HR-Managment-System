@@ -1,0 +1,77 @@
+﻿@model List<Department>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <h3 class="text-primary">Departments</h3>
+        <a class="btn btn-primary" asp-action="Create">
+            <i class="fa-solid fa-plus"></i> Create Department
+        </a>
+    </div>
+
+    <div class="table-responsive mt-3">
+        <table class="table table-hover table-striped text-center shadow-sm">
+            <thead class="table-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="align-middle">@item.Name</td>
+                        <td class="align-middle">
+                            <a href="/hr/edit/@item.ID" class="btn btn-outline-info me-2">
+                                <i class="fa-regular fa-pen-to-square"></i>
+                            </a>
+                            <a onclick="areYouSure(@item.ID)" class="btn btn-outline-danger me-2">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="~/sweetalert2/sweetalert2.all.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<script>
+    function areYouSure(id) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "This action cannot be undone!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#6c757d",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/hr/Delete/" + id,
+                    type: "DELETE",
+                    success: function() {
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "The department has been removed.",
+                            icon: "success"
+                        }).then(() => {
+                            location.reload();
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire({
+                            title: "Error!",
+                            text: "Failed to delete the department.",
+                            icon: "error"
+                        });
+                    }
+                });
+            }
+        });
+    }
+</script>

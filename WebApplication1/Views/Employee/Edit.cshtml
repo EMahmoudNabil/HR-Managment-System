@@ -1,0 +1,218 @@
+﻿@model ApplicationUser
+
+
+<div class="container mt-4">
+    <div class="text-center mb-3">
+        <h2 class="border p-2 d-inline-block">Employees</h2>
+    </div>
+    <form asp-action="Edit" method="post">
+        <div class="row">
+            <!-- Basic Information -->
+            <div class="col-md-6">
+                <div class="border p-3">
+                    <h4 class="text-center mb-3">Basic Information</h4>
+                    <div class="mb-2">
+                        <input asp-for="Id" hidden />
+                        <label asp-for="FullName" class="form-label"></label>
+                        <input asp-for="FullName" type="text" class="form-control">
+                        <span asp-validation-for="FullName" class="text-danger"></span>
+
+                    </div>
+                    <div class="mb-2">
+                        <label asp-for="Address" class="form-label"></label>
+                        <input asp-for="Address" type="text" class="form-control">
+                        <span asp-validation-for="Address" class="text-danger"></span>
+
+                    </div>
+                    <div class="mb-2">
+                        <label asp-for="PhoneNumber" class="form-label"></label>
+                        <input asp-for="PhoneNumber" type="text" class="form-control">
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Branch</label>
+                        <select class="form-select" asp-for="DepartmentID" asp-items=" ViewBag.Branchs">
+                            <option selected disabled>Select</option>
+                        </select>
+                        <span asp-validation-for="DepartmentID" class="text-danger"></span>
+
+                    </div>
+                    <div class="mb-2">
+                        <label asp-for="Nationality" class="form-label"></label>
+                        <input asp-for="Nationality" type="text" class="form-control">
+                        <span asp-validation-for="Nationality" class="text-danger"></span>
+
+                    </div>
+                    <div class="mb-2">
+                        <label asp-for="BirthDate" class="form-label"></label>
+                        <input asp-for="BirthDate" type="date" class="form-control">
+                        <span asp-validation-for="BirthDate" class="text-danger"></span>
+
+                    </div>
+                    <div class="mb-2">
+                        <label asp-for="SSN" class="form-label"></label>
+                        <input asp-for="SSN" class="form-control">
+                        <span asp-validation-for="SSN" class="text-danger"></span>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <!-- Work Information -->
+                <div class="border p-3">
+                    <h4 class="text-center mb-3">Work Information</h4>
+                    <div>
+                        <div class="mb-2">
+                            <label asp-for="DateOfContract" class="form-label"></label>
+                            <input asp-for="DateOfContract" type="date" class="form-control">
+                            <span asp-validation-for="DateOfContract" class="text-danger"></span>
+
+                        </div>
+                        <div class="mb-2">
+                            <label asp-for="Salary" class="form-label"></label>
+                            <input asp-for="Salary" class="form-control">
+                            <span asp-validation-for="Salary" class="text-danger"></span>
+
+                        </div>
+                        <div class="mb-2">
+                            <label asp-for="TimeIn" class="form-label"></label>
+                            <input asp-for="TimeIn" class="form-control">
+                            <span asp-validation-for="TimeIn" class="text-danger"></span>
+
+                        </div>
+                        <div class="mb-2">
+                            <label asp-for="TimeOut" class="form-label"></label>
+                            <input asp-for="TimeOut" class="form-control">
+                            <span asp-validation-for="TimeOut" class="text-danger"></span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        @* <div class="text-center mt-3"> *@
+        @*     <button type="submit" class="btn btn-warning">Edit</button> *@
+        @*     <a href="#" onclick="areYouSure('@Model.Id')" class="btn btn-danger">Delete</a> *@
+
+        @* </div> *@
+        <div class="d-flex justify-content-end gap-2">
+            <button type="submit" class="btn btn-success">
+                <i class="fa fa-edit"></i> Save Changes
+            </button>
+            <button type="button" class="btn btn-danger" onclick="areYouSure('@Model.Id')">
+                <i class="fa fa-trash"></i> Delete
+            </button>
+        </div>
+
+
+    </form>
+</div>
+
+
+<style>
+    body {
+        background-color: #f8f9fa; /* لون خلفية عام */
+    }
+
+    .border {
+        border: 2px solid #007bff; /* لون أزرق أكثر وضوحًا */
+        border-radius: 10px;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        background-color: #ffffff;
+    }
+
+    .form-label {
+        font-weight: bold;
+        color: #333;
+    }
+
+    h2, h4 {
+        color: #007bff;
+    }
+
+    .btn-warning {
+        background-color: #ffca2c;
+        border-color: #ffb700;
+        color: black;
+        font-weight: bold;
+    }
+
+        .btn-warning:hover {
+            background-color: #ffb700;
+            border-color: #ff9900;
+        }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #bb2d3b;
+        font-weight: bold;
+    }
+
+        .btn-danger:hover {
+            background-color: #bb2d3b;
+        }
+
+    .container {
+        max-width: 900px;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script>
+
+      $(document).ready(function() {
+        $('a[data-method="delete"]').on('click', function(e) {
+            e.preventDefault();
+            var id = $(this).attr('data-id');
+            areYouSure(id);
+        });
+    });
+
+    function areYouSure(id) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/Employee/Delete/" + id,
+                    type: "DELETE",
+                    success: function() {
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "Your file has been deleted.",
+                            icon: "success"
+                        }).then(() => {
+                            location.href="/Employee/Index";
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("AJAX request failed:", status, error);
+                        Swal.fire({
+                            title: "Error!",
+                            text: "There was an error deleting your file.",
+                            icon: "error"
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+
+</script>

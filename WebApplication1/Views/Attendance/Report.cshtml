@@ -1,0 +1,235 @@
+﻿@model List<HR.ManagmentSystem.ViewModels.AttendReportViewModel>
+
+
+<style>
+    .table th {
+        vertical-align: middle;
+        background-color: #2c3e50;
+        color: white;
+    }
+
+    .table td {
+        vertical-align: middle;
+    }
+
+    .btn-group .btn {
+        padding: 0.375rem 0.75rem;
+    }
+
+    .card-footer .btn {
+        min-width: 120px;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: rgba(44, 62, 80, 0.05);
+    }
+
+    .form-control:focus {
+        border-color: #2c3e50;
+        box-shadow: 0 0 0 0.25rem rgba(44, 62, 80, 0.25);
+    }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+
+
+
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white py-3 d-flex justify-content-between align-items-center">
+            <h3 class="mb-0 card-title"><i class="fas fa-clipboard-list me-2"></i>Attendance Report</h3>
+            <div class="btn-group">
+                <a asp-controller="Attendance" asp-action="CheckInOut" class="btn btn-light">
+                    <i class="fas fa-clock me-2"></i>Check In/Out
+                </a>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <form method="get" action="@Url.Action("Report", "Attendance")" class="mb-4">
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-search"></i></span>
+                            <input type="text" name="searchQuery" class="form-control"
+                                   placeholder="Search by employee or department..."
+                                   value="@Context.Request.Query["searchQuery"]">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Start Date</label>
+                        <input type="date" name="startDate" class="form-control"
+                               value="@Context.Request.Query["startDate"]">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">End Date</label>
+                        <input type="date" name="endDate" class="form-control"
+                               value="@Context.Request.Query["endDate"]">
+                    </div>
+                    <div class="col-md-2 d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-filter me-2"></i>Filter
+                        </button>
+                        <a href="@Url.Action("Report", "Attendance")" class="btn btn-secondary">
+                            <i class="fas fa-sync-alt me-2"></i>Reset
+                        </a>
+                    </div>
+                </div>
+            </form>
+
+            <div class="table-responsive">
+                <table id="attendanceTable" class="table table-striped table-hover align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th>Employee</th>
+                            <th>Department</th>
+                            <th>Date</th>
+                            <th class="text-center">Check-In</th>
+                            <th class="text-center">Check-Out</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="text-center fw-bold">@item.ID</td>
+                                <td>@item.FullName</td>
+                                <td>@item.DepartmentName</td>
+                                <td>
+                                    <span class="d-block">@item.Date.ToShortDateString()</span>
+                                    <small class="text-muted">@item.Date.ToString("dddd", new System.Globalization.CultureInfo("en-US"))</small>
+                                </td>
+                                <td class="text-center text-primary fw-bold">@item.TimeIn</td>
+                                <td class="text-center text-success fw-bold">@item.TimeOut</td>
+                                <td class="text-center">
+                                    <div class="btn-group btn-group-sm">
+                                        <a asp-action="Edit" asp-route-id="@item.ID"
+                                           class="btn btn-outline-primary" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <button type="button" class="btn btn-outline-danger"
+                                                onclick="areYouSure(@item.ID)" title="Delete">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card-footer bg-light d-flex justify-content-end gap-2">
+            <a href="@Url.Action("ExportToExcel", "Attendance")" class="btn btn-success">
+                <i class="fas fa-file-excel me-2"></i>Excel
+            </a>
+            <a href="@Url.Action("ExportToPDF", "Attendance")" class="btn btn-danger">
+                <i class="fas fa-file-pdf me-2"></i>PDF
+            </a>
+            <button class="btn btn-dark" onclick="window.print()">
+                <i class="fas fa-print me-2"></i>Print
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="~/sweetalert2/sweetalert2.all.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#attendanceTable').DataTable({
+            "paging": true,
+            "pageLength": 10,
+            "lengthMenu": [10, 25, 50, 100],
+            "ordering": true,
+            "searching": false,
+            "info": true,
+            "language": {
+                "lengthMenu": "Show MENU records per page",
+                "zeroRecords": "No records found",
+                "info": "Showing page PAGE of PAGES",
+                "infoEmpty": "No records available",
+                "infoFiltered": "(filtered from MAX total records)",
+                "search": "🔍 Search:",
+                "paginate": {
+                    "first": "First",
+                    "last": "Last",
+                    "next": "Next",
+                    "previous": "Previous"
+                }
+            }
+        });
+    });
+</script>
+
+<script>
+    document.getElementById("searchQuery").addEventListener("keyup", function () {
+        filterTable();
+    });
+
+    function filterTable() {
+        let input = document.getElementById("searchQuery").value.toLowerCase();
+        let rows = document.querySelectorAll("tbody tr");
+
+        rows.forEach(row => {
+            let name = row.cells[1].textContent.toLowerCase();
+            let department = row.cells[2].textContent.toLowerCase();
+
+            if (name.includes(input) || department.includes(input)) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    }
+</script>
+
+
+<script>
+
+
+
+          function areYouSure(id) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "This action cannot be undone!",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+            $.ajax({
+        url: "/Attendance/Delete/" + id,
+        type: "POST",
+        success: function(response) {
+            Swal.fire({
+                title: response.success ? "Deleted!" : "Error!",
+                text: response.message,
+                icon: response.success ? "success" : "error"
+            }).then(() => {
+                if (response.success) location.reload();
+            });
+        },
+        error: function(xhr, status, error) {
+            Swal.fire({
+                title: "Error!",
+                text: "There was an error deleting the record.",
+                icon: "error"
+            });
+        }
+    });
+            }
+        });
+    }
+
+
+</script>
+
+<!-- Keep your existing scripts here, they're fine -->

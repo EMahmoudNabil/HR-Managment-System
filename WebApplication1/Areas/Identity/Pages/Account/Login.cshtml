@@ -1,0 +1,111 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/Login.css" />
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <style>
+        body {
+            background: linear-gradient(to right,#b8b9bc, #0759b2);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-container {
+            background: white;
+            padding: 70px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+            .login-container h2 {
+                text-align: center;
+                color: #333;
+            }
+
+        .btn-primary {
+            background: #6a11cb;
+            border: none;
+        }
+
+            .btn-primary:hover {
+                background: #571aaf;
+            }
+
+        .form-check-label {
+            font-size: 0.9rem;
+        }
+
+        .form-floating input {
+            width: 100% !important; 
+            height: 50px;
+            font-size: 1.1rem; 
+        }
+
+
+        .links a {
+            text-decoration: none;
+            color: #6a11cb;
+            font-size: 0.9rem;
+        }
+
+            .links a:hover {
+                text-decoration: underline;
+            }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <h2><i class="fas fa-sign-in-alt"></i> Log In</h2>
+        <hr>
+        <form id="account" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                <label asp-for="Input.Email">Email</label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
+                <label asp-for="Input.Password">Password</label>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-check mb-3">
+                <input class="form-check-input" asp-for="Input.RememberMe" />
+                <label class="form-check-label" asp-for="Input.RememberMe">
+                    @Html.DisplayNameFor(m => m.Input.RememberMe)
+                </label>
+            </div>
+
+            <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+
+            <div class="text-center links mt-3">
+                <p><a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a></p>
+                <p><a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a></p>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

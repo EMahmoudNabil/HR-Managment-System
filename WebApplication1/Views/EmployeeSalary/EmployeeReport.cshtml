@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewData["Title"] = "EmployeeReport";
+}
+
+<h1>Employee Salary Report</h1>
+
+<style>
+    .table thead th {
+        vertical-align: middle;
+        white-space: nowrap;
+    }
+
+    .table tbody td {
+        vertical-align: middle;
+    }
+
+    .bi {
+        font-size: 1rem;
+    }
+
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+    </div>
+
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h5 class="card-title mb-0">Salary Details</h5>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Employee Name</th>
+                            <th scope="col">Department</th>
+                            <th scope="col" class="text-end">Basic Salary</th>
+                            <th scope="col" class="text-center">Present Days</th>
+                            <th scope="col" class="text-center">Absent Days</th>
+                            <th scope="col" class="text-center">Overtime Hours</th>
+                            <th scope="col" class="text-center">Deduction Hours</th>
+                            <th scope="col" class="text-end">Total Overtime</th>
+                            <th scope="col" class="text-end">Total Deduction</th>
+                            <th scope="col" class="text-end">Net Salary</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@Model.EmployeeName</td>
+                            <td>@Model.DepartmentName</td>
+                            <td class="text-end">@Model.BasicSalary.ToString("C")</td>
+                            <td class="text-center">@Model.PresentDays</td>
+                            <td class="text-center">@Model.AbsentDays</td>
+                            <td class="text-center">@Model.OvertimeHours.ToString("F2")</td>
+                            <td class="text-center">@Model.DeductionHours.ToString("F2")</td>
+                            <td class="text-end">@Model.TotalOvertimePay.ToString("C")</td>
+                            <td class="text-end">@Model.TotalDeduction.ToString("C")</td>
+                            <td class="text-end fw-bold">@Model.NetSalary.ToString("C")</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

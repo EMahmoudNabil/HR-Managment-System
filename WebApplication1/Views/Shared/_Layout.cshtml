@@ -1,0 +1,88 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - HR System</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="~/WebApplication1.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/WebApplication1.styles.css" asp-append-version="true" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+          integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+</head>
+<body>
+        <div class="sidebar">
+            <nav class="d-flex flex-column gap-1">
+                <span class="nav-header text-center fs-4">Hr Mangement</span>
+
+                <hr />
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link p-3">
+                    <i class="icon fa-solid fa-gauge-high"></i> Dashboard
+                </a>
+            <a asp-area="" asp-controller="HR" asp-action="Index" class="nav-link p-3"><i class="icon fa-solid fa-bars-progress"></i> Department</a>
+                <a asp-area="" asp-controller="Employee" asp-action="Index" class="nav-link p-3"><i class="icon fa-solid fa-user-tie"></i> Employee</a>
+                <a asp-area="" asp-controller="GeneralSettings" asp-action="Index" class="nav-link p-3"><i class="icon fa-solid fa-gears"></i> General Settings</a>
+                <a asp-area="" asp-controller="OfficialHolidays" asp-action="Index" class="nav-link p-3"><i class="icon fa-solid fa-calendar-days"></i> Official Holidays</a>
+            <a asp-area="" asp-controller="Attendance" asp-action="Report" class="nav-link p-3"><i class="icon fa-solid fa-user-clock"></i> Attendance</a>
+            <a asp-area="" asp-controller="EmployeeSalary" asp-action="Index" class="nav-link p-3"><i class="fa-solid fa-dollar-sign"></i> Salary Reports</a>
+                <!-- Account Pages -->
+            <span class="nav-header mt-3">Account Pages</span>
+            @if (SignInManager.IsSignedIn(User))
+            {
+
+                <a class="nav-link p-3" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><i class="icon fas fa-user-cog"></i>@User.Identity?.Name</a>
+            
+               
+                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button type="submit" class="nav-link p-3"><i class="fa-solid fa-power-off"></i> Logout</button>
+                    </form>
+         
+            }
+            else
+            {
+                @* <a class="nav-link p-3" asp-area="Identity" asp-page="/Account/Register">Register</a> *@
+                <a class="nav-link p-3" asp-area="Identity" asp-page="/Account/Login"><i class="icon fa-solid fa-right-to-bracket"></i> Login</a>
+            
+            }
+             
+          
+
+            </nav>
+        </div>
+    <div class="dashboard-content">
+        <div class="container-fluid mt-5">
+            <main role="main" class="pb-3">
+
+            @RenderBody()
+
+            </main>
+            @* <footer class="border-top footer text-muted position-absolute bottom-0 w-75"> *@
+            @*     <div class="container mt-2 mb-3"> *@
+            @*         &copy; 2025 - HR System - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a> *@
+            @*     </div> *@
+            @* </footer> *@
+            </div>
+      
+        </div>
+
+    
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/main.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+</body>
+</html>

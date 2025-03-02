@@ -1,0 +1,142 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/Register.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <style>
+        body {
+            background: linear-gradient(to right, #2c3e50, #34495e);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .register-container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        h1, h2, h3 {
+            color: #333;
+        }
+
+        .btn-primary {
+            background: #2980b9;
+            border: none;
+            font-size: 1.1rem;
+            transition: 0.3s ease-in-out;
+        }
+
+            .btn-primary:hover {
+                background: #1f6693;
+            }
+
+        .form-floating input {
+            width: 100%;
+            height: 50px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        .form-floating label {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .form-floating input:focus {
+            border-color: #2980b9;
+            box-shadow: 0 0 5px rgba(41, 128, 185, 0.5);
+        }
+
+        .text-danger {
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <h1><i class="fas fa-user-plus"></i> @ViewData["Title"]</h1>
+        <h2>Create a new account</h2>
+        <hr>
+
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Input.FullName" class="form-control" autocomplete="username" aria-required="true" placeholder="Full Name" />
+                <label asp-for="Input.FullName">Full Name</label>
+                <span asp-validation-for="Input.FullName" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                <label asp-for="Input.Email">Email</label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Password" type="password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Password" />
+                <label asp-for="Input.Password">Password</label>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Input.ConfirmPassword" type="password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Confirm Password" />
+                <label asp-for="Input.ConfirmPassword">Confirm Password</label>
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+            <a class="btn btn-outline-primary w-100 mt-2">Back To Log In</a>
+        </form>
+
+        @* <section class="mt-4"> *@
+        @*     <h3>Use another service to register</h3> *@
+        @*     <hr /> *@
+        @*     @{ *@
+        @*         if ((Model.ExternalLogins?.Count ?? 0) == 0) *@
+        @*         { *@
+        @*             <div> *@
+        @*                 <p> *@
+        @*                     There are no external authentication services configured. See this *@
+        @*                     <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article about setting up authentication</a>. *@
+        @*                 </p> *@
+        @*             </div> *@
+        @*         } *@
+        @*         else *@
+        @*         { *@
+        @*             <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal"> *@
+        @*                 <div> *@
+        @*                     @foreach (var provider in Model.ExternalLogins!) *@
+        @*                     { *@
+        @*                         <button type="submit" class="btn btn-outline-primary m-2" name="provider" value="@provider.Name" title="Log in using @provider.DisplayName">@provider.DisplayName</button> *@
+        @*                     } *@
+        @*                 </div> *@
+        @*             </form> *@
+        @*         } *@
+        @*     } *@
+        @* </section> *@
+    </div>
+
+    @* @section Scripts { *@
+    @*     <partial name="_ValidationScriptsPartial" /> *@
+    @* } *@
+</body>
+</html>
